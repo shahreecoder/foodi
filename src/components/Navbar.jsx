@@ -5,6 +5,7 @@ import { FaRegUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import Model from './Model';
 import { AuthContext } from '../contexts/AuthProvider';
+import Profile from './Profile';
 
 
 function Navbar() {
@@ -107,7 +108,9 @@ function Navbar() {
                         </div>
                     </div>
 
-                    <button className="btn bg-green rounded-full px-6 text-white flex item-center gap-2" onClick={()=>document.getElementById('my_modal_5').showModal()}><FaRegUser />Login</button>
+                    {
+                        user? <Profile user={user}/>:<button className="btn bg-green rounded-full px-6 text-white flex item-center gap-2" onClick={()=>document.getElementById('my_modal_5').showModal()}><FaRegUser />Login</button>
+                    }
                     <Model/>
                 </div>
             </div>

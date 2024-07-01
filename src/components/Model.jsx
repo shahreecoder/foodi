@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
 import { useForm } from "react-hook-form"
 import { AuthContext } from '../contexts/AuthProvider';
@@ -16,10 +16,19 @@ function Model() {
 
     const { signupWithGoogle,login } = useContext(AuthContext);
     const [errorMessage, setErrorMessage] = useState("");
+
+    // Redirect After login 
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
+
     const handleGooglelogin = () => {
         signupWithGoogle().then((result) => {
             const user = result.user;
             alert("Login Successfull!");
+            document.getElementById('my_modal_5').close();
+            navigate (from, {replace:true});
         }).catch((error) => console.log(error));
     }
 
@@ -29,7 +38,9 @@ function Model() {
         login(email,password).then((result)=>{
             const user = result.user;
             alert("Login Successfull! ");
-            console.log(user);
+            document.getElementById('my_modal_5').close();
+            navigate (from, {replace:true});
+           
         }).catch((error)=>{
             const errormessage = error.message;
             setErrorMessage("Please Provied Correct Email and Password");

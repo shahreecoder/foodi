@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import Model from './Model';
 import { AuthContext } from '../contexts/AuthProvider';
@@ -13,13 +13,18 @@ function Signup() {
     } = useForm()
 
     const {createUser} = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
+
     const onSubmit = (data) => {
         const email = data.email;
         const password = data.password;
         createUser(email,password).then((result) =>{
             const user = result.user;
             alert("Registration Successfull! ")
-            console.log(user);
+            document.getElementById('my_modal_5').close();
+            navigate (from, {replace:true});
         }).catch ((errors)=>console.log(errors));
     }
     return (
