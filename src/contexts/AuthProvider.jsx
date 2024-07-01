@@ -48,6 +48,7 @@ function AuthProvider({ children }) {
       } else {
         // User is signed out
         // ...
+        setLoading(false);
       }
     });
     return ()=>{
@@ -62,7 +63,8 @@ function AuthProvider({ children }) {
     signupWithGoogle,
     login,
     logout,
-    updateUserProfile
+    updateUserProfile,
+    loading
   }
 
   return (

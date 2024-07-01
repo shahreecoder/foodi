@@ -1,6 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../contexts/AuthProvider';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Profile({ user }) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
+
+    const { logout } = useContext(AuthContext);
+    const handleLogout = () => {
+        logout().then(() => {
+            alert("User Logout Successfull!");
+            navigate(from, { replace: true });
+            window.location.reload();
+        }).catch((errors) => {
+            console.log(errors);
+        })
+    }
     return (
         <div>
             <div className="drawer drawer-end z-50">
@@ -28,7 +44,7 @@ function Profile({ user }) {
                         <li><a>Profile</a></li>
                         <li><a>Order</a></li>
                         <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
+                        <li><a onClick={handleLogout}>Logout</a></li>
                     </ul>
                 </div>
             </div>
