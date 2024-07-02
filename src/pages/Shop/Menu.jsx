@@ -15,7 +15,8 @@ function Menu() {
     // Fatching Data
     const fetchData = async () => {
       try {
-        const response = await fetch("/menu.json");
+        const response = await fetch("http://localhost:6001/api/menu/fatchallmenu");
+        console.log(response);
         const data = await response.json();
         setMenu(data);
         setfilteredItems(data);

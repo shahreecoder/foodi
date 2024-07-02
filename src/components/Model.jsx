@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
 import { useForm } from "react-hook-form"
 import { AuthContext } from '../contexts/AuthProvider';
-
+import { notify } from './Toast';
 function Model() {
     const {
         register,
@@ -12,9 +12,9 @@ function Model() {
         formState: { errors },
     } = useForm()
 
-    
 
-    const { signupWithGoogle,login } = useContext(AuthContext);
+
+    const { signupWithGoogle, login } = useContext(AuthContext);
     const [errorMessage, setErrorMessage] = useState("");
 
     // Redirect After login 
@@ -26,24 +26,29 @@ function Model() {
     const handleGooglelogin = () => {
         signupWithGoogle().then((result) => {
             const user = result.user;
-            alert("Login Successfull!");
+            notify("success", "Login Success");
             document.getElementById('my_modal_5').close();
-            navigate (from, {replace:true});
-        }).catch((error) => console.log(error));
+            navigate(from, { replace: true });
+        }).catch((error) => {
+            console.log(error);
+            notify("error","Something Went Wrong!");
+        });
+
     }
 
     const onSubmit = (data) => {
         const email = data.email;
         const password = data.password;
-        login(email,password).then((result)=>{
+        login(email, password).then((result) => {
             const user = result.user;
-            alert("Login Successfull! ");
+            notify("success", "Login Success");
             document.getElementById('my_modal_5').close();
-            navigate (from, {replace:true});
-           
-        }).catch((error)=>{
+            navigate(from, { replace: true });
+
+        }).catch((error) => {
             const errormessage = error.message;
             setErrorMessage("Please Provied Correct Email and Password");
+            notify("error","Something Went Wrong!");
         })
     }
 
@@ -71,9 +76,9 @@ function Model() {
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
                             </div>
-                            
+
                             {
-                                errorMessage ?<p className='text-red text-sm'>{errorMessage}</p>:""
+                                errorMessage ? <p className='text-red text-sm'>{errorMessage}</p> : ""
                             }
                             <div className="form-control mt-3">
                                 <input type='submit' value="Login" className="btn bg-green px-8 py-3 font-semibold text-white rounded-full" />
